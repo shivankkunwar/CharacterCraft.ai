@@ -1,9 +1,10 @@
 export interface Message {
     id: string
-    role: 'user' | 'assistant'
+    role: "data" | "system" | "user" | "assistant"
     content: string
     images?: string[]
-    timestamp: string
+    timestamp?: string
+    toolInvocations?: ToolInvocation[];
   }
   
   export interface ImageContext {
@@ -15,7 +16,7 @@ export interface Message {
       style: string
       characters: string[]
       location: string
-      timestamp: string
+      timestamp: number
     }
   }
   
@@ -32,4 +33,11 @@ export interface Message {
     location?: string
   }
   
-  
+  export type ToolInvocation = {
+    toolName: string; 
+    parameters: Record<string, any>;
+    result?: {
+      content?: string; 
+      images?: string[]; 
+    };
+  };
