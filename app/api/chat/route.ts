@@ -5,6 +5,7 @@ import { generateImage } from "@/lib/image-generation";
 import { memorySystem } from "@/lib/memory";
 import { Message } from "@/types/chat";
 import { z } from 'zod'
+
 export async function POST(req: Request) {
     try {
         const { messages } = await req.json();
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
             ],
             tools: {
                 generateImage: {
-                    description: 'Generate an image based on the current context and maintain consistency with previous images',
+                    description: 'if asked in the last message - Generate an image based on the current context and maintain consistency with previous images ',
                     parameters: z.object({
                         description: z.string().describe('Detailed description of the image to generate'),
                         style: z.string().optional().describe('Visual style to maintain consistency'),
@@ -32,8 +33,7 @@ export async function POST(req: Request) {
                     }),
                     execute: async ({ description, style, characters, location }) => {
                         try {
-                            console.log('Generating image with:', { description, style, characters, location });
-
+          
                             const imageUrl = await generateImage(description, []);
                            
 
